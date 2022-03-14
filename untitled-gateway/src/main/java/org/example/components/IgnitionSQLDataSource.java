@@ -1,6 +1,9 @@
-package org.example;
+package org.example.components;
 
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
@@ -10,25 +13,14 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
-
+@Component
 public class IgnitionSQLDataSource implements DataSource {
 
     private final GatewayContext gatewayContext;
-    private static IgnitionSQLDataSource instance;
 
-    protected IgnitionSQLDataSource(GatewayContext gatewayContext) {
+    @Autowired
+    public IgnitionSQLDataSource(GatewayContext gatewayContext) {
         this.gatewayContext = gatewayContext;
-    }
-
-    public static void initialize(GatewayContext gatewayContext) {
-        instance = new IgnitionSQLDataSource(gatewayContext);
-    }
-
-    public static IgnitionSQLDataSource getInstance(){
-        if(instance != null)
-            return instance;
-        else
-            throw new NoSuchElementException("Instance has not been initialized!");
     }
 
     @Override
