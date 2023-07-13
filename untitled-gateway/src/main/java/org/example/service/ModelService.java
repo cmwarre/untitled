@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class ModelService {
 
     private final ModelRepo repo;
 
-    @Autowired
     public ModelService(ModelRepo repo) {
         this.repo = repo;
     }
