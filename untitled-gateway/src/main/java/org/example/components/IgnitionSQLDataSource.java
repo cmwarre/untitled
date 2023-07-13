@@ -25,12 +25,12 @@ public class IgnitionSQLDataSource implements DataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
-        return gatewayContext.getDatasourceManager().getDatasource("mes").getConnection();
+        return gatewayContext.getDatasourceManager().getDatasource("MES").getConnection();
     }
 
     @Override
     public Connection getConnection(String username, String password) throws SQLException {
-        return gatewayContext.getDatasourceManager().getDatasource("mes").getConnection();
+        return gatewayContext.getDatasourceManager().getDatasource("MES").getConnection();
     }
 
     private PrintWriter pw = new PrintWriter(System.out);
