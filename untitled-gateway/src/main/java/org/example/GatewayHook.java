@@ -49,6 +49,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
 
         ModelService modelService = beanFactory.getBean(ModelService.class);
         modelService.save(new Model("test"));
+        modelService.save(new Model("test2"));
         modelService.getAll().forEach(model -> logger.info(model.getName()));
     }
 

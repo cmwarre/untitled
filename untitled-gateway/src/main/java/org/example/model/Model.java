@@ -36,4 +36,11 @@ public class Model {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
