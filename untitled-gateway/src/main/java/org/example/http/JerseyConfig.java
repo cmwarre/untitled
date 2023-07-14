@@ -1,25 +1,17 @@
 package org.example.http;
 
-import org.example.SpringConfig;
 import org.example.api.rest.ModelResource;
 import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.glassfish.jersey.server.spring.SpringComponentProvider;
-import org.glassfish.jersey.server.spring.SpringLifecycleListener;
 import org.jvnet.hk2.spring.bridge.api.SpringBridge;
 import org.jvnet.hk2.spring.bridge.api.SpringIntoHK2Bridge;
-import org.jvnet.hk2.spring.bridge.internal.SpringBridgeImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import javax.ws.rs.ApplicationPath;
 
 @ApplicationPath("/system/example/api/*")

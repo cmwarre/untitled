@@ -1,9 +1,7 @@
 package org.example.api.rest;
 
-import com.google.common.collect.Lists;
 import com.inductiveautomation.ignition.common.util.LoggerEx;
 import org.example.dto.ModelDTO;
-import org.example.model.Model;
 import org.example.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,13 +31,6 @@ public class ModelResource {
     public List<ModelDTO> getAll() {
         var models = modelService.getAll();
         return models.stream().map(ModelDTO::new).collect(Collectors.toList());
-    }
-
-    @GET
-    @Path("/test")
-    @Produces("application/json")
-    public ModelDTO test() {
-        return new ModelDTO("Hello World");
     }
 
     @GET
