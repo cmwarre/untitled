@@ -14,6 +14,7 @@
 
     <properties>
         <ignition-sdk-version>8.1.10</ignition-sdk-version>
+        <jersey-version>2.34</jersey-version>
     </properties>
 
     <modules>

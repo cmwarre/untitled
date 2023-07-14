@@ -1,4 +1,4 @@
-package org.example.api;
+package org.example.api.script;
 
 import com.inductiveautomation.ignition.common.util.LoggerEx;
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
