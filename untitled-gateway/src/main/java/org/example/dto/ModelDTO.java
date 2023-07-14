@@ -13,6 +13,7 @@ public class ModelDTO implements Serializable {
     }
 
     public ModelDTO(Model model) {
+        this.id = model.getId();
         this.name = model.getName();
     }
 
