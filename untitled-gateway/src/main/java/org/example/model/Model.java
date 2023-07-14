@@ -1,19 +1,10 @@
 package org.example.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.Serializable;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "model")
-public class Model implements Serializable {
+public class Model {
 
     public Model() {
     }
