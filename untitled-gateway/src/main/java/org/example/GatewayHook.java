@@ -7,13 +7,18 @@ import com.inductiveautomation.ignition.gateway.model.GatewayContext;
 import org.example.api.ModelScriptAPI;
 import org.example.model.Model;
 import org.example.service.ModelService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GatewayHook extends AbstractGatewayModuleHook {
 
     private static final LoggerEx logger = LoggerEx.newBuilder().build(GatewayHook.class);
     private static GatewayContext gatewayContext;
-    private AnnotationConfigApplicationContext springContext;
+    private AnnotationConfigWebApplicationContext springContext;
 
     @Override
     public void setup(GatewayContext _gatewayContext) {
@@ -28,7 +33,13 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         var threadClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
-        springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
+        springContext = new AnnotationConfigWebApplicationContext();
+        springContext.register(SpringConfig.class);
+        springContext.register(SpringServletConfig.class);
+
+        springContext.refresh();
+
+        SpringExampleServlet.setContext(springContext);
 
         ModelScriptAPI modelScriptAPI = springContext.getAutowireCapableBeanFactory().getBean(ModelScriptAPI.class);
         modelScriptAPI.test();
@@ -37,12 +48,16 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         modelService.save(new Model("test"));
         modelService.getAll().forEach(model -> logger.info(model.getName()));
 
+        // http://localhost:8088/system/spring-example/api/hello/
+        gatewayContext.getWebResourceManager().addServlet("spring-example", SpringExampleServlet.class);
+
         Thread.currentThread().setContextClassLoader(threadClassLoader); // reset the class loader to prevent any unintended side effects
     }
 
     @Override
     public void shutdown() {
         logger.info("Spring Example is Shutting Down");
+        gatewayContext.getWebResourceManager().removeServlet("spring-example");
         if (springContext != null) {
             springContext.close();
         }
