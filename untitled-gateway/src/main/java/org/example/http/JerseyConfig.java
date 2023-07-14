@@ -4,6 +4,7 @@ import org.example.SpringConfig;
 import org.example.api.rest.ModelResource;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spi.Container;
@@ -61,6 +62,7 @@ public class JerseyConfig extends ResourceConfig {
             }
         });
 
+        register(JacksonFeature.class);
         register(JacksonJaxbJsonProvider.class);
         register(SpringComponentProvider.class);
 

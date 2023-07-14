@@ -1,13 +1,18 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.example.model.Model;
 
-@JsonSerialize
-public class ModelDTO {
+import java.io.Serializable;
+
+public class ModelDTO implements Serializable {
 
     private String name;
 
     public ModelDTO() {
+    }
+
+    public ModelDTO(Model model) {
+        this.name = model.getName();
     }
 
     public ModelDTO(String name) {
