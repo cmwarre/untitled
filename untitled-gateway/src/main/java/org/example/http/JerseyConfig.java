@@ -2,12 +2,9 @@ package org.example.http;
 
 import org.example.api.rest.ModelResource;
 import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.jersey.jackson.JacksonFeature;
-import org.glassfish.jersey.jackson.internal.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
-import org.glassfish.jersey.server.spring.SpringComponentProvider;
 import org.jvnet.hk2.spring.bridge.api.SpringBridge;
 import org.jvnet.hk2.spring.bridge.api.SpringIntoHK2Bridge;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -54,12 +51,9 @@ public class JerseyConfig extends ResourceConfig {
             }
         });
 
-        register(JacksonFeature.class);
-        register(JacksonJaxbJsonProvider.class);
-        register(SpringComponentProvider.class);
+        register(JsonAsDefaultSerializationProvider.class);
 
         register(ModelResource.class);
-
 
     }
 

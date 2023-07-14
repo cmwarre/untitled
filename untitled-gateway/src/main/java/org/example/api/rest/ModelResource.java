@@ -14,8 +14,6 @@ import javax.ws.rs.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Produces("application/json")
-@Consumes("application/json")
 @RestController
 @Path("/example/api")
 public class ModelResource {
