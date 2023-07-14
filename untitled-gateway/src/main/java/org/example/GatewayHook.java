@@ -35,17 +35,21 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
         this.beanFactory = springContext.getAutowireCapableBeanFactory();
 
-        ModelScriptAPI modelScriptAPI = springContext.getAutowireCapableBeanFactory().getBean(ModelScriptAPI.class);
-        modelScriptAPI.test();
-
-        ModelService modelService = springContext.getAutowireCapableBeanFactory().getBean(ModelService.class);
-        modelService.save(new Model("test"));
-        modelService.getAll().forEach(model -> logger.info(model.getName()));
-
-        // http://localhost:8088/system/example/api/hello/
+        JerseyConfig.setSpringContext(springContext);
         gatewayContext.getWebResourceManager().addServlet(JerseyConfig.SERVLET_ID, JerseyIgnitionServlet.class);
 
+        testSpringStuffWorks();
+
         Thread.currentThread().setContextClassLoader(threadClassLoader); // reset the class loader to prevent any unintended side effects
+    }
+
+    public void testSpringStuffWorks() {
+        ModelScriptAPI modelScriptAPI = beanFactory.getBean(ModelScriptAPI.class);
+        modelScriptAPI.test();
+
+        ModelService modelService = beanFactory.getBean(ModelService.class);
+        modelService.save(new Model("test"));
+        modelService.getAll().forEach(model -> logger.info(model.getName()));
     }
 
     @Override
