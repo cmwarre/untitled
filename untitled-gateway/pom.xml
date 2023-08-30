@@ -65,7 +65,6 @@
             <version>5.6.5.Final</version>
         </dependency>
 
-
         <!-- Jersey dependencies -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>

@@ -52,7 +52,6 @@ public class JerseyConfig extends ResourceConfig {
         });
 
         register(JsonAsDefaultSerializationProvider.class);
-
         register(ModelResource.class);
 
     }
