@@ -1,9 +1,11 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Builder;
 
-@JsonSerialize
-public class ModelDTO {
+import java.io.Serializable;
+
+@Builder
+public class ModelDTO implements Serializable {
 
     private String name;
 

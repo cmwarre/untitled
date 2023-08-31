@@ -1,21 +1,33 @@
 package org.example;
 
-import org.springframework.stereotype.Component;
+import com.inductiveautomation.ignition.common.util.LoggerEx;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-@Component
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+
 public class SpringExampleServlet extends DispatcherServlet {
 
-    private static WebApplicationContext context;
+    LoggerEx logger = LoggerEx.newBuilder().build(SpringExampleServlet.class);
 
-    public static void setContext(WebApplicationContext _context) {
+    private static AnnotationConfigApplicationContext context;
+
+    public static void setContext(AnnotationConfigApplicationContext _context) {
         context = _context;
     }
 
     public SpringExampleServlet() {
         super();
-        setApplicationContext(context);
-    }
 
+        if(context == null){
+            logger.error("Context is null!");
+        }
+        setApplicationContext(context);
+        //setContext(context);
+        if(getServletContext() == null){
+            logger.error("Servlet Context is null!");
+        }
+    }
 }
