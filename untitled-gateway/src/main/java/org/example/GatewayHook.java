@@ -7,7 +7,6 @@ import com.inductiveautomation.ignition.gateway.model.GatewayContext;
 import org.example.api.ModelScriptAPI;
 import org.example.model.Model;
 import org.example.service.ModelService;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 public class GatewayHook extends AbstractGatewayModuleHook {
