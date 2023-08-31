@@ -31,10 +31,9 @@ public class HelloController {
        return "Hello, world!";
     }
 
-    @ResponseBody
-    @GetMapping(value = "/", produces = "application/json")
+    @GetMapping
     public ResponseEntity<List<ModelDTO>> getModel() {
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(service.getAllDTO());
+        return ResponseEntity.ok(service.getAllDTO());
     }
 
 }
