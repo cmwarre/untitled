@@ -19,8 +19,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.persistence.EntityManagerFactory;
+import javax.servlet.ServletContext;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -29,7 +31,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "org.example.repository")
 @EnableTransactionManagement
 @ComponentScan(basePackages = "org.example")
-public class SpringConfig extends WebMvcConfigurationSupport {
+public class SpringConfig {
 
     @Bean
     @Autowired
@@ -75,16 +77,28 @@ public class SpringConfig extends WebMvcConfigurationSupport {
         return new ObjectMapper();
     }
 
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(mappingJackson2HttpMessageConverter(objectMapper()));
-        super.addDefaultHttpMessageConverters(converters);
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer() {
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+                converters.add(mappingJackson2HttpMessageConverter(objectMapper()));
+            }
+
+            @Override
+            public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+                configurer
+                        .defaultContentType(MediaType.APPLICATION_JSON);
+            }
+
+        };
     }
 
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer
-                .defaultContentType(MediaType.APPLICATION_JSON);
+    @Bean
+    public ServletContext servletContext() {
+        return gatewayContext().getWebResourceManager().getWebApplication().getServletContext();
     }
+
 
 }

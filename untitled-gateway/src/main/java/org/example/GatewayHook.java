@@ -14,7 +14,7 @@ public class GatewayHook extends AbstractGatewayModuleHook {
 
     private static final LoggerEx logger = LoggerEx.newBuilder().build(GatewayHook.class);
     private static GatewayContext gatewayContext;
-    private AnnotationConfigApplicationContext springContext;
+    private static AnnotationConfigWebApplicationContext springContext;
 
     @Override
     public void setup(GatewayContext _gatewayContext) {
@@ -29,7 +29,9 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         var threadClassLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
-        springContext = new AnnotationConfigApplicationContext(SpringConfig.class);
+        springContext = new AnnotationConfigWebApplicationContext();
+        springContext.register(SpringConfig.class);
+        springContext.refresh();
 
         ModelScriptAPI modelScriptAPI = springContext.getAutowireCapableBeanFactory().getBean(ModelScriptAPI.class);
         modelScriptAPI.test();
@@ -38,7 +40,6 @@ public class GatewayHook extends AbstractGatewayModuleHook {
         modelService.save(new Model("test"));
         modelService.getAll().forEach(model -> logger.info(model.getName()));
 
-        SpringExampleServlet.setContext(springContext);
         // http://localhost:8088/system/spring-example/api/hello/
         gatewayContext.getWebResourceManager().addServlet("spring-example", SpringExampleServlet.class);
 
@@ -56,6 +57,10 @@ public class GatewayHook extends AbstractGatewayModuleHook {
 
     public static GatewayContext getGatewayContext() {
         return gatewayContext;
+    }
+
+    public static AnnotationConfigWebApplicationContext getSpringContext() {
+        return springContext;
     }
 
 }
