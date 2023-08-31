@@ -1,6 +1,7 @@
 package org.example;
 
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
+import org.example.api.rest.security.IgnitionBasicAuthProvider;
 import org.example.components.IgnitionSQLDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,10 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,6 +26,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = "org.example.repository")
 @EnableTransactionManagement
 @ComponentScan(basePackages = "org.example")
+@EnableWebSecurity
 public class SpringConfig {
 
     @Bean
@@ -52,6 +58,29 @@ public class SpringConfig {
     @Bean
     public GatewayContext gatewayContext() {
         return GatewayHook.getGatewayContext();
+    }
+
+    @Bean
+    public IgnitionBasicAuthProvider ignitionBasicAuthProvider(GatewayContext gatewayContext) {
+        return new IgnitionBasicAuthProvider(gatewayContext);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, GatewayContext gatewayContext) throws Exception {
+
+        http
+                .csrf().disable()
+                .authenticationProvider(ignitionBasicAuthProvider(gatewayContext))
+                .authorizeRequests()
+                .antMatchers("/**")
+                .authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        return http.build();
     }
 
 }
