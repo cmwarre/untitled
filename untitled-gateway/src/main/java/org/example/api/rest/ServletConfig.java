@@ -1,4 +1,4 @@
-package org.example;
+package org.example.api.rest;
 
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
 import org.springframework.beans.factory.annotation.Autowired;

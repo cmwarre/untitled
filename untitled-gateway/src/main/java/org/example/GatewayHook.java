@@ -5,6 +5,7 @@ import com.inductiveautomation.ignition.common.util.LoggerEx;
 import com.inductiveautomation.ignition.gateway.model.AbstractGatewayModuleHook;
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
 import org.example.api.ModelScriptAPI;
+import org.example.api.rest.SpringExampleServlet;
 import org.example.model.Model;
 import org.example.service.ModelService;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
