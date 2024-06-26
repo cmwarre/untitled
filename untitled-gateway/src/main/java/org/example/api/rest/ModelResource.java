@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@Path("/example/api/")
+@Path("/example/api/") // http://localhost:8088/main/system/example/api/
 public class ModelResource {
 
     private static final LoggerEx logger = LoggerEx.newBuilder().build(ModelResource.class);
