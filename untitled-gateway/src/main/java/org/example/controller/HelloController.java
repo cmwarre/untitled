@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/spring-example/api/hello")
+@RequestMapping(value = "/spring-example/api/hello") // http://localhost:8088/system/spring-example/api/hello
 public class HelloController {
 
     private final ModelService service;
