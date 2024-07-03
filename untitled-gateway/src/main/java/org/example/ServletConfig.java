@@ -1,7 +1,9 @@
 package org.example;
 
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
+import org.example.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,6 +30,11 @@ public class ServletConfig extends WebMvcConfigurationSupport {
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer
                 .defaultContentType(MediaType.APPLICATION_JSON);
+    }
+
+    @Bean
+    public SecurityConfig securityConfig() {
+        return new SecurityConfig();
     }
 
 }

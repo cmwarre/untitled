@@ -5,8 +5,12 @@ import com.inductiveautomation.ignition.common.util.LoggerEx;
 import com.inductiveautomation.ignition.gateway.model.AbstractGatewayModuleHook;
 import com.inductiveautomation.ignition.gateway.model.GatewayContext;
 import org.example.api.ModelScriptAPI;
+import org.example.http.SpringExampleServlet;
 import org.example.model.Model;
+import org.example.security.SecurityConfig;
 import org.example.service.ModelService;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.AutoProxyRegistrar;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 public class GatewayHook extends AbstractGatewayModuleHook {
@@ -25,11 +29,22 @@ public class GatewayHook extends AbstractGatewayModuleHook {
     public void startup(LicenseState licenseState) {
 
         // force jpa to use the current classes classLoader to load spring dependencies
+        //var threadClassLoader = Thread.currentThread().getContextClassLoader();
+        //Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+
+        var c = AutoProxyRegistrar.class;
+
         var threadClassLoader = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+        Thread.currentThread().setContextClassLoader(AutoProxyRegistrar.class.getClassLoader());
+
+        try {
+            Class.forName("org.springframework.context.annotation.AutoProxyRegistrar");
+        } catch (ClassNotFoundException e) {
+            logger.error("Failed to load AutoProxyRegistrar class", e);
+        }
 
         springContext = new AnnotationConfigWebApplicationContext();
-        springContext.register(SpringConfig.class);
+        springContext.register(SpringConfig.class, SecurityConfig.class);
         springContext.refresh();
 
         ModelScriptAPI modelScriptAPI = springContext.getAutowireCapableBeanFactory().getBean(ModelScriptAPI.class);
